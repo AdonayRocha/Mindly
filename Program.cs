@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using OpenTelemetry.Trace;
+using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Serilog para logging estruturado
@@ -40,6 +41,14 @@ builder.Services.AddSwaggerGen(c =>
             }, new string[] {}
         }
     });
+
+    // Incluir comentários XML no Swagger para descrever endpoints
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+    }
 });
 builder.Services.AddApiVersioning(options =>
 {

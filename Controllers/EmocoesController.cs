@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using Mindly.Services;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
@@ -9,7 +10,12 @@ using Microsoft.Extensions.Logging;
 public class EmocoesController : ControllerBase
 {
     private readonly ILogger<EmocoesController> _logger;
-    public EmocoesController(ILogger<EmocoesController> logger) => _logger = logger;
+    private readonly MindlyAiService _ai;
+    public EmocoesController(ILogger<EmocoesController> logger, MindlyAiService ai)
+    {
+        _logger = logger;
+        _ai = ai;
+    }
 
     [HttpGet]
     [AdminProtect]
@@ -45,30 +51,49 @@ public class EmocoesController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Detecta risco e tópicos emocionais a partir de um texto.
+    /// </summary>
+    /// <remarks>
+    /// Este endpoint envia o texto para o serviço externo (/detect) e retorna um indicador de alerta,
+    /// palavras de alerta detectadas, tópicos identificados e uma pontuação de risco. Também marcamos
+    /// alerta localmente se palavras explícitas de violência forem encontradas.
+    /// </remarks>
+    /// <param name="request">Texto a ser avaliado</param>
+    /// <response code="200">Retorna status de sucesso, alerta consolidado e o objeto de detecção</response>
     [HttpPost]
     [AdminProtect]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     public async Task<IActionResult> RegistrarEmocao([FromBody] EmocaoRequest request)
     {
-        bool alerta = false;
-        string? riscoIa = null;
-        if (!string.IsNullOrEmpty(request.Texto))
+        if (string.IsNullOrWhiteSpace(request.Texto))
         {
-            if (request.Texto.ToLower().Contains("matar"))
-            {
-                alerta = true;
-                _logger.LogWarning("Alerta: palavra 'matar' detectada no texto do paciente.");
-            }
-            using var client = new HttpClient();
-            var payload = new { text = request.Texto, meta = new { } };
-            var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(payload), System.Text.Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("https://mindlyai.onrender.com/detect", content);
-            if (response.IsSuccessStatusCode)
-            {
-                var json = await response.Content.ReadAsStringAsync();
-                riscoIa = json;
-            }
+            return BadRequest(new { erro = "Texto é obrigatório." });
         }
-        return Ok(new { sucesso = true, alerta, riscoIa });
+
+        var texto = request.Texto.Trim();
+        var alertaLocal = texto.ToLower().Contains("matar") || texto.ToLower().Contains("suicida");
+        if (alertaLocal)
+        {
+            _logger.LogWarning("Alerta local: termos de violência/suicídio detectados no texto.");
+        }
+
+        var detect = await _ai.DetectAsync(texto);
+        var alerta = alertaLocal || (detect?.Alert ?? false);
+
+        return Ok(new
+        {
+            sucesso = true,
+            alerta,
+            riscoIa = new
+            {
+                alert = detect?.Alert ?? false,
+                alert_words = detect?.Alert_Words ?? Array.Empty<string>(),
+                topics = detect?.Topics ?? Array.Empty<string>(),
+                risk_score = detect?.Risk_Score ?? 0
+            }
+        });
     }
 }
 

@@ -26,8 +26,25 @@ public class AutoconhecimentoController : ControllerBase
         public string[]? Dicas { get; set; }
     }
 
+    /// <summary>
+    /// Avalia sinais de bem-estar emocional com base em 8 indicadores.
+    /// </summary>
+    /// <remarks>
+    /// A avaliação soma 1 ponto para cada item marcado como verdadeiro:
+    /// cansaço, dificuldade de sono, ansiedade, dificuldade de concentração, tristeza,
+    /// perda de interesse, irritação e pensamentos negativos.
+    ///
+    /// Faixas de resultado:
+    /// - 0 a 2: equilíbrio emocional, sugestões leves de autocuidado.
+    /// - 3 a 5: atenção a sinais de alerta, recomendações de rotina e relaxamento.
+    /// - 6 a 8: alerta importante, recomendação de procurar acompanhamento profissional.
+    /// </remarks>
+    /// <response code="200">Retorna o resultado textual e uma lista de dicas</response>
     [HttpPost]
     [AdminProtect]
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(AutoconhecimentoResponse), StatusCodes.Status200OK)]
     public IActionResult Post([FromBody] AutoconhecimentoRequest req)
     {
         int score = 0;

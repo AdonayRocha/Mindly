@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "At1nhSSqIbI=",
+  "dgSpecHash": "IpJM/IlwFVg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\adona\\source\\repos\\Mindly\\Mindly.csproj",
+  "projectFilePath": "c:\\Users\\adona\\source\\repos\\Mindly\\Mindly.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\adona\\.nuget\\packages\\aspnetcore.healthchecks\\1.0.0\\aspnetcore.healthchecks.1.0.0.nupkg.sha512",
     "C:\\Users\\adona\\.nuget\\packages\\aspnetcore.healthchecks.ui.client\\9.0.0\\aspnetcore.healthchecks.ui.client.9.0.0.nupkg.sha512",

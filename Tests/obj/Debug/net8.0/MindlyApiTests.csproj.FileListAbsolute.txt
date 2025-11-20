@@ -484,3 +484,5 @@ c:\Users\adona\source\repos\Mindly\Tests\obj\Debug\net8.0\refint\MindlyApiTests.
 c:\Users\adona\source\repos\Mindly\Tests\obj\Debug\net8.0\MindlyApiTests.pdb
 C:\Users\adona\source\repos\Mindly\Tests\obj\Debug\net8.0\MindlyApiTests.genruntimeconfig.cache
 C:\Users\adona\source\repos\Mindly\Tests\obj\Debug\net8.0\ref\MindlyApiTests.dll
+c:\Users\adona\source\repos\Mindly\Tests\bin\Debug\net8.0\Mindly.xml
+c:\Users\adona\source\repos\Mindly\Tests\obj\Debug\net8.0\MindlyApiTests.sourcelink.json

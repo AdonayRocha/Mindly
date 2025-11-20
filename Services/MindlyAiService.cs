@@ -30,5 +30,25 @@ namespace Mindly.Services
         {
             public string Insights { get; set; }
         }
+
+        public async Task<DetectResponse> DetectAsync(string text, object? meta = null, CancellationToken ct = default)
+        {
+            _logger.LogInformation("Enviando texto para detecção de risco na IA");
+            var payload = new { text, meta = meta ?? new { } };
+            var content = new StringContent(JsonSerializer.Serialize(payload), System.Text.Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("detect", content, ct);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync(ct);
+            _logger.LogInformation("Resposta de detecção recebida da IA");
+            return JsonSerializer.Deserialize<DetectResponse>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        }
+
+        public class DetectResponse
+        {
+            public bool Alert { get; set; }
+            public string[]? Alert_Words { get; set; }
+            public string[]? Topics { get; set; }
+            public int Risk_Score { get; set; }
+        }
     }
 }
