@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Mindly.Services;
+using Mindly.Controllers;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
