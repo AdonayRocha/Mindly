@@ -16,6 +16,41 @@
         <member name="M:Mindly.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:Mindly.Models.Paciente">
+            <summary>
+            Exemplo de requisição para criar um paciente:
+            {
+              "nome": "Adonay",
+              "email": "adonay@example.com",
+              "senha": "123",
+              "telefone": "00000000000",
+              "observacao": "Transplantado renal"
+            }
+            </summary>
+        </member>
+        <member name="T:Mindly.Models.Psicologo">
+            <summary>
+            Exemplo de requisição para criar um psicólogo:
+            {
+              "nome": "Maria",
+              "email": "maria@example.com",
+              "senha": "abc123"
+            }
+            </summary>
+        </member>
+        <member name="T:Mindly.Models.Rotina">
+            <summary>
+            Exemplo de requisição para criar uma rotina:
+            {
+              "pacienteId": 10,
+              "data": "2025-11-21T19:25:47.684Z",
+              "comeuBem": true,
+              "dormiuBem": true,
+              "desabafo": "Estou triste, pois, tive dificuldades ao fazer um trabalho da faculdade.",
+              "rotinaDia": "Acordei, trabalhei e estudei"
+            }
+            </summary>
+        </member>
         <member name="M:AutoconhecimentoController.Post(AutoconhecimentoController.AutoconhecimentoRequest)">
              <summary>
              Avalia sinais de bem-estar emocional com base em 8 indicadores.

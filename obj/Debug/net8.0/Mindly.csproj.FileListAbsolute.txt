@@ -175,4 +175,3 @@ c:\Users\adona\source\repos\Mindly\obj\Debug\net8.0\ref\Mindly.dll
 c:\Users\adona\source\repos\Mindly\bin\Debug\net8.0\Mindly.xml
 c:\Users\adona\source\repos\Mindly\obj\Debug\net8.0\Mindly.sourcelink.json
 c:\Users\adona\source\repos\Mindly\obj\Debug\net8.0\Mindly.xml
-C:\Users\adona\source\repos\Mindly\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

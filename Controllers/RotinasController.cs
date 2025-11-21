@@ -68,6 +68,8 @@ public class RotinasController : ControllerBase
             return BadRequest("Paciente não encontrado. Não é possível criar rotina para paciente inexistente.");
         }
         rotina.Data = rotina.Data == default ? DateTime.UtcNow : rotina.Data;
+        // Garante que o objeto Paciente não será adicionado ou atualizado pelo EF
+        rotina.Paciente = null;
         _context.Rotinas.Add(rotina);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetById), new { id = rotina.Id }, rotina);

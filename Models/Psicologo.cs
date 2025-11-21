@@ -2,6 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Mindly.Models
 {
+    /// <summary>
+    /// Exemplo de requisição para criar um psicólogo:
+    /// {
+    ///   "nome": "Maria",
+    ///   "email": "maria@example.com",
+    ///   "senha": "abc123"
+    /// }
+    /// </summary>
     public class Psicologo
     {
         public int Id { get; set; }
