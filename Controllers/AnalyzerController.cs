@@ -11,7 +11,7 @@ public class AnalyzeController : ControllerBase
     public AnalyzeController(MindlyAiService service) => _service = service;
 
     [HttpPost]
-
+    [AdminProtect]
     public async Task<IActionResult> Post([FromBody] AnalyzeRequest request)
     {
         if (string.IsNullOrWhiteSpace(request.Text))

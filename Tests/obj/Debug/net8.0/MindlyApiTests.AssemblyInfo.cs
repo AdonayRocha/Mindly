@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MindlyApiTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+16453178bcef1da394e4f5e76d3864faa16b9d50")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f596d54483a7746c6de1b27bdd6773c8481bfc5")]
 [assembly: System.Reflection.AssemblyProductAttribute("MindlyApiTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MindlyApiTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
