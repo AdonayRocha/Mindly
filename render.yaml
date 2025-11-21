@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: mindly-api
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: ORACLE_CONNECTION_STRING
+        value: "User Id=USER;Password=PASS;Data Source=HOST/DB"
+      - key: AUTH__ADMINPASSWORD
+        value: "admin"

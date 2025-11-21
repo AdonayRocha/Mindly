@@ -65,7 +65,13 @@ builder.Services.AddOpenTelemetry()
             // Outras instrumentações
     );
 builder.Services.AddDbContext<Mindly.Data.MindlyContext>(options =>
-    options.UseOracle("User Id=RM558782;Password=fiap25;Data Source=oracle.fiap.com.br/orcl;"));
+    {
+        var configured = builder.Configuration.GetConnectionString("Oracle");
+        var env = Environment.GetEnvironmentVariable("ORACLE_CONNECTION_STRING");
+        var connectionString = string.IsNullOrWhiteSpace(configured) ? env : configured;
+        connectionString ??= "User Id=USER;Password=PASS;Data Source=HOST/DB"; // fallback simples
+        options.UseOracle(connectionString);
+    });
 builder.Services.AddHttpClient<Mindly.Services.MindlyAiService>();
 
 var app = builder.Build();
