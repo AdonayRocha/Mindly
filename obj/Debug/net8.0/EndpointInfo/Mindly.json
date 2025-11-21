@@ -51,6 +51,8 @@
         "tags": [
           "Autoconhecimento"
         ],
+        "summary": "Avalia sinais de bem-estar emocional com base em 8 indicadores.",
+        "description": "A avaliação soma 1 ponto para cada item marcado como verdadeiro:\r\ncansaço, dificuldade de sono, ansiedade, dificuldade de concentração, tristeza,\r\nperda de interesse, irritação e pensamentos negativos.\r\n            \r\nFaixas de resultado:\r\n- 0 a 2: equilíbrio emocional, sugestões leves de autocuidado.\r\n- 3 a 5: atenção a sinais de alerta, recomendações de rotina e relaxamento.\r\n- 6 a 8: alerta importante, recomendação de procurar acompanhamento profissional.",
         "parameters": [
           {
             "name": "version",
@@ -67,22 +69,19 @@
               "schema": {
                 "$ref": "#/components/schemas/AutoconhecimentoRequest"
               }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AutoconhecimentoRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AutoconhecimentoRequest"
-              }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Retorna o resultado textual e uma lista de dicas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AutoconhecimentoResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -117,48 +116,12 @@
       }
     },
     "/api/v{version}/Emocoes": {
-      "get": {
-        "tags": [
-          "Emocoes"
-        ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 10
-            }
-          },
-          {
-            "name": "version",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
       "post": {
         "tags": [
           "Emocoes"
         ],
+        "summary": "Detecta risco e tópicos emocionais a partir de um texto.",
+        "description": "Este endpoint envia o texto para o serviço externo (/detect) e retorna um indicador de alerta,\r\npalavras de alerta detectadas, tópicos identificados e uma pontuação de risco. Também marcamos\r\nalerta localmente se palavras explícitas de violência forem encontradas.",
         "parameters": [
           {
             "name": "version",
@@ -170,18 +133,9 @@
           }
         ],
         "requestBody": {
+          "description": "Texto a ser avaliado",
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmocaoRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmocaoRequest"
-              }
-            },
-            "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/EmocaoRequest"
               }
@@ -190,7 +144,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Retorna status de sucesso, alerta consolidado e o objeto de detecção"
           }
         }
       }
@@ -844,6 +798,23 @@
           },
           "temPensamentosNegativos": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AutoconhecimentoResponse": {
+        "type": "object",
+        "properties": {
+          "resultado": {
+            "type": "string",
+            "nullable": true
+          },
+          "dicas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

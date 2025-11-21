@@ -39,7 +39,15 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "AutoconhecimentoController\u002BAutoconhecimentoResponse",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "CartilhasController",
@@ -52,32 +60,6 @@
       {
         "Name": "emocao",
         "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "version",
-        "Type": "",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EmocoesController",
-    "Method": "Get",
-    "RelativePath": "api/v{version}/Emocoes",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
         "IsRequired": false
       },
       {

@@ -17,40 +17,6 @@ public class EmocoesController : ControllerBase
         _ai = ai;
     }
 
-    [HttpGet]
-    [AdminProtect]
-    public IActionResult Get([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
-    {
-        // Mock de emoções para exemplo
-        var total = 5;
-        var emocoes = new[]
-        {
-            new { Id = 1, Texto = "Feliz" },
-            new { Id = 2, Texto = "Triste" },
-            new { Id = 3, Texto = "Raiva" },
-            new { Id = 4, Texto = "Ansiedade" },
-            new { Id = 5, Texto = "Medo" }
-        }
-        .Skip((page - 1) * pageSize)
-        .Take(pageSize)
-        .ToList();
-
-        var result = new
-        {
-            total,
-            page,
-            pageSize,
-            data = emocoes,
-            links = new
-            {
-                self = Url.Action(nameof(Get), new { page, pageSize }),
-                next = page * pageSize < total ? Url.Action(nameof(Get), new { page = page + 1, pageSize }) : null,
-                prev = page > 1 ? Url.Action(nameof(Get), new { page = page - 1, pageSize }) : null
-            }
-        };
-        return Ok(result);
-    }
-
     /// <summary>
     /// Detecta risco e tópicos emocionais a partir de um texto.
     /// </summary>
