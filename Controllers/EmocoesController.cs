@@ -39,14 +39,12 @@ public class EmocoesController : ControllerBase
         }
 
         var texto = request.Texto.Trim();
-        var alertaLocal = texto.ToLower().Contains("matar") || texto.ToLower().Contains("suicida");
-        if (alertaLocal)
-        {
-            _logger.LogWarning("Alerta local: termos de violência/suicídio detectados no texto.");
-        }
-
         var detect = await _ai.DetectAsync(texto);
-        var alerta = alertaLocal || (detect?.Alert ?? false);
+        var alerta = detect?.Alert ?? false;
+        if (alerta)
+        {
+            _logger.LogWarning("Alerta IA: MindlyAiService sinalizou risco para o texto enviado.");
+        }
 
         return Ok(new
         {
