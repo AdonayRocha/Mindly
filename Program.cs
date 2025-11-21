@@ -92,7 +92,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+var enableSwagger = Environment.GetEnvironmentVariable("ENABLE_SWAGGER");
+if (app.Environment.IsDevelopment() || (enableSwagger?.Equals("true", StringComparison.OrdinalIgnoreCase) == true))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -103,6 +104,14 @@ app.UseHttpsRedirection();
 // Sem middleware de autenticação padrão; proteção feita por atributo personalizado
 
 app.MapControllers();
+// Endpoint raiz para evitar 404 e indicar docs
+app.MapGet("/", () => Results.Json(new
+{
+    status = "ok",
+    name = "Mindly API",
+    version = "v1",
+    docs = "/swagger"
+}));
 app.MapHealthChecks("/health");
 
 app.Run();
