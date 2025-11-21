@@ -161,6 +161,18 @@
         }
       }
     },
+    "/": {
+      "get": {
+        "tags": [
+          "Mindly"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v{version}/Pacientes": {
       "post": {
         "tags": [

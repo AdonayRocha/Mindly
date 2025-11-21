@@ -32,7 +32,7 @@ namespace Mindly.Controllers
                 context.Result = new ContentResult
                 {
                     StatusCode = StatusCodes.Status401Unauthorized,
-                    Content = "Acesso restrito: senha admin inválida."
+                    Content = "Senha inválida"
                 };
             }
         }

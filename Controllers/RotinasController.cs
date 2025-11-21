@@ -61,6 +61,12 @@ public class RotinasController : ControllerBase
     [AdminProtect]
     public async Task<IActionResult> Post([FromBody] Rotina rotina)
     {
+        // Verifica se o paciente existe antes de criar a rotina
+        var pacienteExiste = await _context.Pacientes.AnyAsync(p => p.Id == rotina.PacienteId);
+        if (!pacienteExiste)
+        {
+            return BadRequest("Paciente não encontrado. Não é possível criar rotina para paciente inexistente.");
+        }
         rotina.Data = rotina.Data == default ? DateTime.UtcNow : rotina.Data;
         _context.Rotinas.Add(rotina);
         await _context.SaveChangesAsync();
